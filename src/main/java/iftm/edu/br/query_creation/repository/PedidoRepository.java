@@ -10,16 +10,17 @@ import iftm.edu.br.query_creation.domain.Pedido;
 
 @Repository
 public interface PedidoRepository extends CrudRepository<Pedido, Long> {
-    // Retorna todos os itens que foram vendidos sem desconto.
-    List<Pedido> findByDesconto(Long desconto);
+    // Retorne todos os itens que foram vendidos sem desconto.
+    List<Pedido> findByDesconto(int desconto);
 
-    // Retorna todos os itens que foram vendidos com desconto.
-    List<Pedido> findByDescontoGreaterThan(Long desconto);
+    // Retorne todos os itens que foram vendidos com desconto.
+    List<Pedido> findByDescontoGreaterThan(int desconto);
 
-    // Retorna todos os itens e ordene o resultado por VALOR_UNIT do maior valor para o menor.
+    // Retorne todos os itens e ordene o resultado por VALOR_UNIT do maior valor para o menor.
     List<Pedido> findAllByOrderByValorUnitDesc();
 
-    // Retorna o produto que mais vendeu.
+    // Retorne o produto que mais vendeu.
+    @Query("SELECT p.codProd FROM Pedido p GROUP BY p.codProd ORDER BY SUM(p.quantidade) DESC LIMIT 1")
     Long findTopByOrderByQuantidadeDesc();
 
     // Consulte as NF que foram vendidas mais de 10 unidades de pelo menos um produto.
@@ -27,7 +28,7 @@ public interface PedidoRepository extends CrudRepository<Pedido, Long> {
     List<Long> findNfWithMoreThan10Units();
 
     // Pesquise o valor total das NF, onde esse valor seja maior que 500, e ordene o resultado do maior valor para o menor.
-    @Query("SELECT SUM(p.valorTotal) FROM Pedido p GROUP BY p.idNf HAVING SUM(p.valorTotal) > 500 ORDER BY SUM(p.valorTotal) DESC")
-    List<Double> findTotalValueOfNfGreaterThan500();
+    @Query("SELECT p.idNf, SUM(p.valorUnit * p.quantidade * (1 - p.desconto / 100)) AS total FROM Pedido p GROUP BY p.idNf HAVING SUM(p.valorUnit * p.quantidade * (1 - p.desconto / 100)) > 500 ORDER BY total DESC")
+    List<Object[]> findTotalValueOfNfGreaterThan500();
 
 }
