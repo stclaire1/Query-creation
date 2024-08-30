@@ -13,11 +13,11 @@ import lombok.Setter;
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_pedido;
-    private Long id_nf;
-    private Long id_item;
-    private Long cod_prod;
-    private Double valor_unit;
+    private Long idPedido;
+    private Long idNf;
+    private Long idItem;
+    private Long codProd;
+    private Double valorUnit;
     private Long quantidade;
     private Long desconto;
 }
