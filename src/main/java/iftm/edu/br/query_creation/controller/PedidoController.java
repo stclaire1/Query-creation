@@ -17,24 +17,24 @@ public class PedidoController {
     @Autowired
     private PedidoService pedidoService;
 
-    @GetMapping("/desconto")
-    public List<Pedido> findByDesconto(Long desconto) {
-        return pedidoService.findByDesconto(desconto);
+    @GetMapping("/sem-desconto")
+    public List<Pedido> getItensSemDesconto() {
+        return pedidoService.getItensSemDesconto();
     }
 
     @GetMapping("/desconto-maior")
-    public List<Pedido> findByDescontoGreaterThan(Long desconto) {
-        return pedidoService.findByDescontoGreaterThan(desconto);
+    public List<Pedido> getItensComDesconto() {
+        return pedidoService.getItensComDesconto();
     }
 
-    @GetMapping("/valor-unit")
-    public List<Pedido> findAllByOrderByValorUnitDesc() {
-        return pedidoService.findAllByOrderByValorUnitDesc();
+    @GetMapping("/ordenado-valor-unit")
+    public List<Pedido> getItensOrdenadosPorValor() {
+        return pedidoService.getItensOrdenadosPorValor();
     }
 
     @GetMapping("/mais-vendido")
-    public Long findTopByOrderByQuantidadeDesc() {
-        return pedidoService.findTopByOrderByQuantidadeDesc();
+    public Long getProdutoMaisVendido() {
+        return pedidoService.getProdutoMaisVendido();
     }
 
     @GetMapping("/nf-mais-10-unidades")
@@ -43,7 +43,7 @@ public class PedidoController {
     }
 
     @GetMapping("/valor-total-maior-500")
-    public List<Double> findTotalValueOfNfGreaterThan500() {
+    public List<Object[]> findTotalValueOfNfGreaterThan500() {
         return pedidoService.findTotalValueOfNfGreaterThan500();
     }
 }
