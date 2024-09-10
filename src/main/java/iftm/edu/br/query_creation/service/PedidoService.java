@@ -12,13 +12,15 @@ import iftm.edu.br.query_creation.service.exceptions.NotFoundException;
 @Service
 public class PedidoService {
 
+    private static final String NENHUM_ITEM_ENCONTRADO = "Nenhum item encontrado";
+
     @Autowired
     private PedidoRepository pedidoRepository;
 
     public List<Pedido> getItensSemDesconto() {
         List<Pedido> pedidos = pedidoRepository.findByDesconto(0);
         if (pedidos.isEmpty()) {
-            throw new NotFoundException("Nenhum item encontrado");
+            throw new NotFoundException(NENHUM_ITEM_ENCONTRADO);
         }
         return pedidos;
     }
@@ -26,7 +28,7 @@ public class PedidoService {
     public List<Pedido> getItensComDesconto() {
         List<Pedido> pedidos = pedidoRepository.findByDescontoGreaterThan(0);
         if (pedidos.isEmpty()) {
-            throw new NotFoundException("Nenhum item encontrado");
+            throw new NotFoundException(NENHUM_ITEM_ENCONTRADO);
         }
         return pedidos;
     }
@@ -34,7 +36,7 @@ public class PedidoService {
     public List<Pedido> getItensOrdenadosPorValor() {
         List<Pedido> pedidos = pedidoRepository.findAllByOrderByValorUnitDesc();
         if (pedidos.isEmpty()) {
-            throw new NotFoundException("Nenhum item encontrado");
+            throw new NotFoundException(NENHUM_ITEM_ENCONTRADO);
         }
         return pedidos;
     }
@@ -42,7 +44,7 @@ public class PedidoService {
     public Long getProdutoMaisVendido() {
         Long codProd = pedidoRepository.findTopByOrderByQuantidadeDesc();
         if (codProd == null) {
-            throw new NotFoundException("Nenhum item encontrado");
+            throw new NotFoundException(NENHUM_ITEM_ENCONTRADO);
         }
         return codProd;
     }
